@@ -1,7 +1,40 @@
+import 'package:codealpha_random_quote_generator/core/network/api_client.dart';
+import 'package:codealpha_random_quote_generator/core/network/api_result.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+import 'core/network/api_constants.dart';
+import 'core/network/dio_provider.dart';
+import 'features/quotes/data/repos/quote_repository.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final repo = QuoteRepository(ApiService.getInstance());
+  final result = await repo.getAllQuotes();
+
+  result.when(
+    success: (data) {
+      print('✅ SUCCESS: Got ${data.length} quotes');
+      print('First quote: "${data.first.content}" — ${data.first.author}');
+    },
+    failure: (error) {
+      print('❌ FAILURE: ${error.statusMessage}');
+    },
+  );
+
   runApp(const MyApp());
+}
+
+class ApiService {
+  static ApiClient? _client;
+
+  static ApiClient getInstance() {
+    _client ??= ApiClient(
+      DioProvider.getInstance(),
+      baseUrl: ApiConstants.baseUrl,
+    );
+    return _client!;
+  }
 }
 
 class MyApp extends StatelessWidget {
