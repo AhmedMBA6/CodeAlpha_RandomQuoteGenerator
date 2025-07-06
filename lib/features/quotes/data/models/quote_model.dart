@@ -12,7 +12,17 @@ class QuoteModel {
 
   QuoteModel({required this.content, required this.author});
 
-  factory QuoteModel.fromJson(Map<String, dynamic> json) =>
-      _$QuoteModelFromJson(json);
+  factory QuoteModel.fromJson(Map<String, dynamic> json) => _$QuoteModelFromJson(json);
   Map<String, dynamic> toJson() => _$QuoteModelToJson(this);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is QuoteModel &&
+          runtimeType == other.runtimeType &&
+          content == other.content &&
+          author == other.author;
+
+  @override
+  int get hashCode => content.hashCode ^ author.hashCode;
 }

@@ -2,8 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import '../network/api_client.dart';
 import '../network/dio_provider.dart';
-import '../../features/quotes/data/repos/quote_repository.dart';
-import '../../features/quotes/logic/cubit/quote_cubit.dart';
+import '../../features/quotes/quotes.dart';
+import '../../features/favorites/favorites.dart';
 
 final getIt = GetIt.instance;
 
@@ -18,4 +18,8 @@ Future<void> init() async {
 
   // Cubits
   getIt.registerFactory(() => QuoteCubit(getIt()));
+
+  // Favorites
+  getIt.registerLazySingleton<FavoritesRepository>(() => FavoritesRepository());
+  getIt.registerFactory<FavoritesCubit>(() => FavoritesCubit(getIt<FavoritesRepository>()));
 }
