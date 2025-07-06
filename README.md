@@ -38,19 +38,20 @@ The folder structure will be organized as follows:
 
 ```
 lib/
+├── main.dart                      # App entry point (only main method)
 ├── core/
-│ ├── error_handler/ # Global error classes and failure handling
-│ ├── network/ # API service clients and constants
-│ └── utils/ # Reusable helpers (formatters, etc.)
-│
+│ ├── app/                         # Main app widget and configuration
+│ ├── config/                      # App configuration, themes, and constants
+│ ├── di/                          # Dependency injection setup
+│ ├── error_handler/               # Global error classes and failure handling
+│ ├── network/                     # API service clients and constants
+│ └── utils/                       # Reusable helpers (formatters, etc.)
 ├── features/
 │ └── quotes/
-│ ├── data/ # Models, data sources, repository implementation
-│ ├── logic/ # State management (Cubit/BLoC, events, states)
-│ └── ui/# UI components (screens, widgets)
-│
-├── shared/ # Common widgets and global UI helpers
-└── main.dart # App entry point
+│   ├── data/                      # Models, data sources, repository implementation
+│   ├── logic/                     # State management (Cubit/BLoC, events, states)
+│   └── ui/                        # UI components (screens, widgets)
+└── shared/                        # Common widgets and global UI helpers
 ```
 
 Each feature and update will be documented here as the project progresses.
@@ -61,12 +62,15 @@ Each feature and update will be documented here as the project progresses.
 
 | Folder                            | Responsibility                                      |
 |----------------------------------|-----------------------------------------------------|
-| `core/error_handler/`                    | Define and handle app-wide error and failure cases |
+| `core/app/`                      | Main app widget and configuration                   |
+| `core/config/`                   | App configuration, themes, and constants            |
+| `core/di/`                       | Dependency injection setup                          |
+| `core/error_handler/`            | Define and handle app-wide error and failure cases |
 | `core/network/`                  | API endpoints, base URL, and HTTP client config     |
 | `core/utils/`                    | Helpers like formatters or extensions               |
 | `features/quotes/data/`          | API integration, models, and repository implementation |
-| `features/quotes/logic/`   | Business logic layer (Cubit/BLoC and states)        |
-| `features/quotes/ui/`  | Screens and UI widgets                              |
+| `features/quotes/logic/`         | Business logic layer (Cubit/BLoC and states)        |
+| `features/quotes/ui/`            | Screens and UI widgets                              |
 | `shared/`                        | Global reusable UI components                       |
 
 ---
