@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../widgets/quote_card.dart';
-import '../widgets/new_quote_button.dart';
-import '../widgets/loading_widget.dart';
-import '../widgets/error_widget.dart';
+import '../widgets/widgets.dart';
 import '../../logic/cubit/quote_cubit.dart';
 import '../../logic/cubit/quote_state.dart';
+import '../../../../core/app/routes.dart';
 
 class QuoteScreen extends StatelessWidget {
   const QuoteScreen({super.key});
@@ -16,12 +14,12 @@ class QuoteScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('QuoteShot'),
-        backgroundColor: theme.colorScheme.background,
+        backgroundColor: theme.colorScheme.surface,
         actions: [
           IconButton(
             icon: Icon(Icons.favorite, color: theme.colorScheme.secondary),
             onPressed: () {
-              // TODO: Navigate to favorites screen
+              Navigator.pushNamed(context, Routes.favorites);
             },
           ),
         ],
@@ -34,8 +32,8 @@ class QuoteScreen extends StatelessWidget {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              theme.colorScheme.primary.withOpacity(0.08),
-              theme.colorScheme.background,
+              theme.colorScheme.primary.withAlpha((0.08 * 255).toInt()),
+              theme.colorScheme.surface,
             ],
           ),
         ),
@@ -52,7 +50,9 @@ class QuoteScreen extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Expanded(child: LoadingWidget(showButtonShimmer: false)),
+                        const Expanded(
+                          child: LoadingWidget(showButtonShimmer: false),
+                        ),
                         const SizedBox(height: 24),
                         NewQuoteButton(
                           onPressed: () {
@@ -65,7 +65,9 @@ class QuoteScreen extends StatelessWidget {
                 }
               },
               success: (quote) => _buildSuccessState(context, quote),
-              error: (error) => QuoteErrorWidget(error: error),
+              error: (error) => QuoteErrorWidget(
+                error: error.statusMessage ?? 'An unknown error occurred',
+              ),
             );
           },
         ),
@@ -103,9 +105,7 @@ class QuoteScreen extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-            child: QuoteCard(quote: quote),
-          ),
+          Expanded(child: QuoteCard(quote: quote)),
           const SizedBox(height: 24),
           NewQuoteButton(
             onPressed: () {
@@ -116,4 +116,4 @@ class QuoteScreen extends StatelessWidget {
       ),
     );
   }
-} 
+}

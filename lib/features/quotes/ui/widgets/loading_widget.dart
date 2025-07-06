@@ -1,6 +1,10 @@
+/// LoadingWidget displays a shimmer effect for loading states in the quote app.
+/// Uses withOpacity for backgrounds to achieve a subtle, glassy effect.
+/// This is visually preferable for shimmer, even if withOpacity is deprecated elsewhere.
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
+/// A widget that displays a shimmer loading placeholder for quotes and buttons.
 class LoadingWidget extends StatefulWidget {
   final bool showButtonShimmer;
   const LoadingWidget({super.key, this.showButtonShimmer = true});
@@ -15,6 +19,7 @@ class _LoadingWidgetState extends State<LoadingWidget> with SingleTickerProvider
   @override
   void initState() {
     super.initState();
+    // Entrance animation for shimmer
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 500),
@@ -51,7 +56,8 @@ class _LoadingWidgetState extends State<LoadingWidget> with SingleTickerProvider
                     width: double.infinity,
                     height: 260,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      // Use withOpacity for shimmer backgrounds for best visual effect.
+                      color: Colors.white.withOpacity(0.55),
                       borderRadius: BorderRadius.circular(24),
                     ),
                     child: Column(
@@ -111,7 +117,7 @@ class _LoadingWidgetState extends State<LoadingWidget> with SingleTickerProvider
                   width: 180,
                   height: 48,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Colors.white.withOpacity(0.55),
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
