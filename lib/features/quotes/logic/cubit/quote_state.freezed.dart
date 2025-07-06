@@ -128,11 +128,11 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( QuoteModel quotes)?  success,TResult Function( ApiErrorModel apiErrorModel)?  error,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function( bool isInitial)?  loading,TResult Function( QuoteModel quotes)?  success,TResult Function( ApiErrorModel apiErrorModel)?  error,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case QuoteLoading() when loading != null:
-return loading();case QuoteSuccess() when success != null:
+return loading(_that.isInitial);case QuoteSuccess() when success != null:
 return success(_that.quotes);case QuoteError() when error != null:
 return error(_that.apiErrorModel);case _:
   return orElse();
@@ -152,11 +152,11 @@ return error(_that.apiErrorModel);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( QuoteModel quotes)  success,required TResult Function( ApiErrorModel apiErrorModel)  error,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function( bool isInitial)  loading,required TResult Function( QuoteModel quotes)  success,required TResult Function( ApiErrorModel apiErrorModel)  error,}) {final _that = this;
 switch (_that) {
 case _Initial():
 return initial();case QuoteLoading():
-return loading();case QuoteSuccess():
+return loading(_that.isInitial);case QuoteSuccess():
 return success(_that.quotes);case QuoteError():
 return error(_that.apiErrorModel);case _:
   throw StateError('Unexpected subclass');
@@ -175,11 +175,11 @@ return error(_that.apiErrorModel);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( QuoteModel quotes)?  success,TResult? Function( ApiErrorModel apiErrorModel)?  error,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function( bool isInitial)?  loading,TResult? Function( QuoteModel quotes)?  success,TResult? Function( ApiErrorModel apiErrorModel)?  error,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case QuoteLoading() when loading != null:
-return loading();case QuoteSuccess() when success != null:
+return loading(_that.isInitial);case QuoteSuccess() when success != null:
 return success(_that.quotes);case QuoteError() when error != null:
 return error(_that.apiErrorModel);case _:
   return null;
@@ -225,33 +225,67 @@ String toString() {
 
 
 class QuoteLoading implements QuoteState {
-  const QuoteLoading();
+  const QuoteLoading({this.isInitial = false});
   
 
+@JsonKey() final  bool isInitial;
 
-
+/// Create a copy of QuoteState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$QuoteLoadingCopyWith<QuoteLoading> get copyWith => _$QuoteLoadingCopyWithImpl<QuoteLoading>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is QuoteLoading);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is QuoteLoading&&(identical(other.isInitial, isInitial) || other.isInitial == isInitial));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,isInitial);
 
 @override
 String toString() {
-  return 'QuoteState.loading()';
+  return 'QuoteState.loading(isInitial: $isInitial)';
 }
 
 
 }
 
+/// @nodoc
+abstract mixin class $QuoteLoadingCopyWith<$Res> implements $QuoteStateCopyWith<$Res> {
+  factory $QuoteLoadingCopyWith(QuoteLoading value, $Res Function(QuoteLoading) _then) = _$QuoteLoadingCopyWithImpl;
+@useResult
+$Res call({
+ bool isInitial
+});
 
 
+
+
+}
+/// @nodoc
+class _$QuoteLoadingCopyWithImpl<$Res>
+    implements $QuoteLoadingCopyWith<$Res> {
+  _$QuoteLoadingCopyWithImpl(this._self, this._then);
+
+  final QuoteLoading _self;
+  final $Res Function(QuoteLoading) _then;
+
+/// Create a copy of QuoteState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? isInitial = null,}) {
+  return _then(QuoteLoading(
+isInitial: null == isInitial ? _self.isInitial : isInitial // ignore: cast_nullable_to_non_nullable
+as bool,
+  ));
+}
+
+
+}
 
 /// @nodoc
 

@@ -19,6 +19,9 @@ class DioProvider {
           'Accept': 'application/json',
         },
         responseType: ResponseType.json,
+        validateStatus: (status) {
+          return status != null && status < 500;
+        },
       )
       ..interceptors.add(_logger);
 
