@@ -16,15 +16,41 @@ class FavoritesScreen extends StatelessWidget {
       body: BlocBuilder<FavoritesCubit, FavoritesState>(
         builder: (context, state) {
           return state.when(
-            initial: () {
-              // Load favorites on first build
-              context.read<FavoritesCubit>().loadFavorites();
-              return const Center(child: CircularProgressIndicator());
-            },
-            loading: () => const Center(child: CircularProgressIndicator()),
+            initial: () => const Center(
+              child: CircularProgressIndicator(),
+            ),
+            loading: () => const Center(
+              child: CircularProgressIndicator(),
+            ),
             success: (favorites) {
               if (favorites.isEmpty) {
-                return const Center(child: Text('No favorite quotes yet.'));
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.favorite_border,
+                        size: 64,
+                        color: Theme.of(context).colorScheme.secondary.withOpacity(0.5),
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        'No favorite quotes yet',
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Add quotes to your favorites to see them here',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                );
               }
               return ListView.separated(
                 padding: const EdgeInsets.all(16),
@@ -36,7 +62,40 @@ class FavoritesScreen extends StatelessWidget {
                 },
               );
             },
-            error: (message) => Center(child: Text('Error: $message')),
+            error: (message) => Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.error_outline,
+                    size: 64,
+                    color: Theme.of(context).colorScheme.error.withOpacity(0.7),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Error loading favorites',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    message,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () {
+                      context.read<FavoritesCubit>().loadFavorites();
+                    },
+                    child: const Text('Retry'),
+                  ),
+                ],
+              ),
+            ),
           );
         },
       ),
