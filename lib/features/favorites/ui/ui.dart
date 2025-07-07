@@ -2,5 +2,6 @@
 /// 
 /// This file exports all UI components (screens) used in the favorites feature
 /// to provide a single import point for better organization.
+library;
 
 export 'screens/screens.dart'; 

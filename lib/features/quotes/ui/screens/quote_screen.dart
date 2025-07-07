@@ -4,6 +4,7 @@ import '../widgets/widgets.dart';
 import '../../logic/cubit/quote_cubit.dart';
 import '../../logic/cubit/quote_state.dart';
 import '../../../../core/app/routes.dart';
+import '../../../../core/config/ui_constants.dart';
 
 class QuoteScreen extends StatelessWidget {
   const QuoteScreen({super.key});
@@ -54,10 +55,13 @@ class QuoteScreen extends StatelessWidget {
                           child: LoadingWidget(showButtonShimmer: false),
                         ),
                         const SizedBox(height: 24),
-                        NewQuoteButton(
-                          onPressed: () {
-                            context.read<QuoteCubit>().fetchRandomQuote();
-                          },
+                        ConstrainedBox(
+                          constraints: BoxConstraints(maxWidth: kButtonMaxWidth),
+                          child: NewQuoteButton(
+                            onPressed: () {
+                              context.read<QuoteCubit>().fetchRandomQuote();
+                            },
+                          ),
                         ),
                       ],
                     ),
@@ -78,23 +82,29 @@ class QuoteScreen extends StatelessWidget {
   Widget _buildInitialState(BuildContext context) {
     final theme = Theme.of(context);
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.flash_on, color: theme.colorScheme.secondary, size: 56),
-          const SizedBox(height: 24),
-          Text(
-            'Welcome to QuoteShot',
-            style: theme.textTheme.titleLarge,
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 20),
-          NewQuoteButton(
-            onPressed: () {
-              context.read<QuoteCubit>().fetchRandomQuote();
-            },
-          ),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.flash_on, color: theme.colorScheme.secondary, size: 56),
+            const SizedBox(height: 24),
+            Text(
+              'Welcome to QuoteShot',
+              style: theme.textTheme.titleLarge,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 20),
+            ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: kButtonMaxWidth),
+              child: NewQuoteButton(
+                onPressed: () {
+                  context.read<QuoteCubit>().fetchRandomQuote();
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -107,10 +117,13 @@ class QuoteScreen extends StatelessWidget {
         children: [
           Expanded(child: QuoteCard(quote: quote)),
           const SizedBox(height: 24),
-          NewQuoteButton(
-            onPressed: () {
-              context.read<QuoteCubit>().fetchRandomQuote();
-            },
+          ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: kButtonMaxWidth),
+            child: NewQuoteButton(
+              onPressed: () {
+                context.read<QuoteCubit>().fetchRandomQuote();
+              },
+            ),
           ),
         ],
       ),

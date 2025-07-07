@@ -2,6 +2,7 @@
 /// 
 /// This file exports all components used in the quotes feature
 /// to provide a single import point for better organization.
+library;
 
 export 'data/models/quote_model.dart';
 export 'data/repos/quote_repository.dart';

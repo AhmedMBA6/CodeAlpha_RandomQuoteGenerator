@@ -1,4 +1,5 @@
 /// QuoteErrorWidget displays an error message for quote-related errors in the app.
+library;
 import 'package:flutter/material.dart';
 import 'package:codealpha_random_quote_generator/core/config/ui_constants.dart';
 

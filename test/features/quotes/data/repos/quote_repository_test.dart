@@ -3,7 +3,6 @@ import 'package:codealpha_random_quote_generator/features/quotes/data/models/quo
 import 'package:codealpha_random_quote_generator/features/quotes/data/repos/quote_repository.dart';
 import 'package:codealpha_random_quote_generator/core/network/api_client.dart';
 import 'package:codealpha_random_quote_generator/core/network/api_result.dart';
-import 'package:codealpha_random_quote_generator/core/network/error_model.dart';
 
 // Simple mock API client for testing
 class MockApiClient implements ApiClient {

@@ -18,5 +18,8 @@ const Duration kFavIconDuration = Duration(milliseconds: 300);
 const double kDefaultPadding = 24.0;
 const double kDefaultSpacing = 16.0;
 
+// Button max width for responsive design
+const double kButtonMaxWidth = 400.0;
+
 // Colors (if not from theme)
 const Color kFavoriteColor = Colors.amber; 

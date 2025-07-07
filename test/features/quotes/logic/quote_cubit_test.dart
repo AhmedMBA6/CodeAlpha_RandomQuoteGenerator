@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:codealpha_random_quote_generator/features/quotes/data/models/quote_model.dart';
 import 'package:codealpha_random_quote_generator/features/quotes/data/repos/quote_repository.dart';
 import 'package:codealpha_random_quote_generator/features/quotes/logic/cubit/quote_cubit.dart';

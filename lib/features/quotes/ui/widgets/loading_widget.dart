@@ -1,6 +1,7 @@
 /// LoadingWidget displays a shimmer effect for loading states in the quote app.
 /// Uses withOpacity for backgrounds to achieve a subtle, glassy effect.
 /// This is visually preferable for shimmer, even if withOpacity is deprecated elsewhere.
+library;
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:codealpha_random_quote_generator/core/config/ui_constants.dart';

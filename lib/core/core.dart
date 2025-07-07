@@ -2,6 +2,7 @@
 /// 
 /// This file exports all core components to provide a single import point
 /// for better organization and easier imports.
+library;
 
 export 'app/app.dart';
 export 'app/routes.dart';

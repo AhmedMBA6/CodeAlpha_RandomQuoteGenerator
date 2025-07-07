@@ -1,5 +1,6 @@
 /// QuoteCard displays a single quote with author, favorite button, and animated effects.
 /// Used in the main quote screen and favorites list.
+library;
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -181,7 +182,7 @@ class _QuoteCardState extends State<QuoteCard> with TickerProviderStateMixin {
                                     );
                                   },
                                   child: Text(
-                                    '${widget.quote.content}',
+                                    widget.quote.content,
                                     key: ValueKey(widget.quote.content),
                                     style: theme.textTheme.bodyLarge?.copyWith(
                                       fontWeight: FontWeight.bold,
