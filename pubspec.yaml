@@ -62,6 +62,8 @@ dev_dependencies:
   json_serializable: ^6.9.5
   retrofit_generator: ^9.2.0
   build_runner: ^2.5.4
+  # Testing dependencies
+  mockito: ^5.4.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
