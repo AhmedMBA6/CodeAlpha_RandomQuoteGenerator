@@ -20,7 +20,7 @@ class FavoritesRepository {
 
   // Add a quote to favorites
   Future<void> addFavorite(QuoteModel quote) async {
-    final List<String> jsonList = _prefsService.getStringList(_favoritesKey);
+    final List<String> jsonList = List<String>.from(_prefsService.getStringList(_favoritesKey));
     final quoteJson = json.encode(quote.toJson());
     if (!jsonList.contains(quoteJson)) {
       jsonList.add(quoteJson);
@@ -30,7 +30,7 @@ class FavoritesRepository {
 
   // Remove a quote from favorites
   Future<void> removeFavorite(QuoteModel quote) async {
-    final List<String> jsonList = _prefsService.getStringList(_favoritesKey);
+    final List<String> jsonList = List<String>.from(_prefsService.getStringList(_favoritesKey));
     final quoteJson = json.encode(quote.toJson());
     jsonList.remove(quoteJson);
     await _prefsService.setStringList(_favoritesKey, jsonList);
