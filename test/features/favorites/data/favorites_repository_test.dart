@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:codealpha_random_quote_generator/features/quotes/data/models/quote_model.dart';
 import 'package:codealpha_random_quote_generator/features/favorites/data/favorites_repository.dart';
+import 'package:codealpha_random_quote_generator/core/utils/shared_prefs_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -9,12 +10,13 @@ void main() {
   
   group('FavoritesRepository', () {
     late FavoritesRepository repository;
+    late SharedPrefsService prefsService;
 
     setUp(() async {
-      // Clear SharedPreferences before each test
       final prefs = await SharedPreferences.getInstance();
       await prefs.clear();
-      repository = FavoritesRepository();
+      prefsService = SharedPrefsService(prefs);
+      repository = FavoritesRepository(prefsService);
     });
 
     group('QuoteModel equality', () {

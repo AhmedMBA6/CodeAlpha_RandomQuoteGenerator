@@ -17,9 +17,9 @@ class App extends StatelessWidget {
         BlocProvider(create: (context) => di.getIt<FavoritesCubit>()),
       ],
       child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: AppConfig.appName,
-        theme: AppConfig.lightTheme,
+      debugShowCheckedModeBanner: false,
+      title: AppConfig.appName,
+      theme: AppConfig.lightTheme,
         initialRoute: Routes.home,
         routes: {
           Routes.home: (context) => const QuoteScreen(),

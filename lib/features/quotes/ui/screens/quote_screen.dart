@@ -5,9 +5,42 @@ import '../../logic/cubit/quote_cubit.dart';
 import '../../logic/cubit/quote_state.dart';
 import '../../../../core/app/routes.dart';
 import '../../../../core/config/ui_constants.dart';
+import '../../../../core/utils/shared_prefs_service.dart';
+import '../../../../core/di/injection_container.dart';
 
-class QuoteScreen extends StatelessWidget {
+class QuoteScreen extends StatefulWidget {
   const QuoteScreen({super.key});
+
+  @override
+  State<QuoteScreen> createState() => _QuoteScreenState();
+}
+
+class _QuoteScreenState extends State<QuoteScreen> {
+  bool? _showWelcome;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkFirstLaunch();
+  }
+
+  Future<void> _checkFirstLaunch() async {
+    final prefsService = getIt<SharedPrefsService>();
+    final isFirstLaunch = prefsService.getBool('is_first_launch', defaultValue: true);
+    if (isFirstLaunch) {
+      setState(() {
+        _showWelcome = true;
+      });
+      await prefsService.setBool('is_first_launch', false);
+    } else {
+      setState(() {
+        _showWelcome = false;
+      });
+      // Fetch a new quote immediately
+      // ignore: use_build_context_synchronously
+      context.read<QuoteCubit>().fetchRandomQuote();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,43 +71,47 @@ class QuoteScreen extends StatelessWidget {
             ],
           ),
         ),
-        child: BlocBuilder<QuoteCubit, QuoteState>(
-          builder: (context, state) {
-            return state.when(
-              initial: () => _buildInitialState(context),
-              loading: (isInitial) {
-                if (isInitial) {
-                  return const LoadingWidget(showButtonShimmer: true);
-                } else {
-                  return Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Expanded(
-                          child: LoadingWidget(showButtonShimmer: false),
+        child: _showWelcome == null
+            ? const Center(child: CircularProgressIndicator())
+            : _showWelcome!
+                ? _buildInitialState(context)
+                : BlocBuilder<QuoteCubit, QuoteState>(
+                    builder: (context, state) {
+                      return state.when(
+                        initial: () => const SizedBox.shrink(),
+                        loading: (isInitial) {
+                          if (isInitial) {
+                            return const LoadingWidget(showButtonShimmer: true);
+                          } else {
+                            return Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Expanded(
+                                    child: LoadingWidget(showButtonShimmer: false),
+                                  ),
+                                  const SizedBox(height: 24),
+                                  ConstrainedBox(
+                                    constraints: BoxConstraints(maxWidth: kButtonMaxWidth),
+                                    child: NewQuoteButton(
+                                      onPressed: () {
+                                        context.read<QuoteCubit>().fetchRandomQuote();
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+                        },
+                        success: (quote) => _buildSuccessState(context, quote),
+                        error: (error) => QuoteErrorWidget(
+                          error: error.statusMessage ?? 'An unknown error occurred',
                         ),
-                        const SizedBox(height: 24),
-                        ConstrainedBox(
-                          constraints: BoxConstraints(maxWidth: kButtonMaxWidth),
-                          child: NewQuoteButton(
-                            onPressed: () {
-                              context.read<QuoteCubit>().fetchRandomQuote();
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-              },
-              success: (quote) => _buildSuccessState(context, quote),
-              error: (error) => QuoteErrorWidget(
-                error: error.statusMessage ?? 'An unknown error occurred',
-              ),
-            );
-          },
-        ),
+                      );
+                    },
+                  ),
       ),
     );
   }
@@ -100,6 +137,9 @@ class QuoteScreen extends StatelessWidget {
               child: NewQuoteButton(
                 onPressed: () {
                   context.read<QuoteCubit>().fetchRandomQuote();
+                  setState(() {
+                    _showWelcome = false;
+                  });
                 },
               ),
             ),
