@@ -4,10 +4,16 @@ import '../network/api_client.dart';
 import '../network/dio_provider.dart';
 import '../../features/quotes/quotes.dart';
 import '../../features/favorites/favorites.dart';
+import '../utils/shared_prefs_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final getIt = GetIt.instance;
 
 Future<void> init() async {
+  // Shared Preferences
+  final sharedPrefs = await SharedPreferences.getInstance();
+  getIt.registerSingleton<SharedPrefsService>(SharedPrefsService(sharedPrefs));
+
   // Network
   Dio dio = DioProvider.getInstance();
   getIt.registerLazySingleton<Dio>(() => dio);
